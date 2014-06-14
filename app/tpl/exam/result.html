@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title><?=$page_title?></title>
+<script src="app/public/js/jquery.min.js"></script>
+<script src="app/public/js/jquery.msg.js"></script>
+<script src="app/public/js/jquery.topmsg.js"></script>
+<script src="app/public/js/bootstrap.min.js"></script>
+
+<link type="text/css" href="app/public/css/bootstrap.min.css" rel="stylesheet"></link>
+
+</head>
+<style type="text/css">
+.num{
+	color:#df7600;
+	font-weight:bold;
+	margin-left:5px;
+	margin-right:5px;
+}
+</style>
+<body style="background:url(app/public/img/body_bg.jpg)">
+<div class="container">
+	<div style="margin-top:100px;">
+	本次考试共<span class="num"><?=$all?></span>道题，总分<span class="num"><?=$total_score ?></span>分 答卷耗时：<span class="num"><?=$dt_spent?></span>分钟 未作答<span class="num"><?=$no_answer?></span>题
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th>题型</th>
+			<th>总题数</th>
+			<th>答对题数</th>
+			<th>总分</th>
+			<th>得分</th>	
+		</tr>
+		<?php foreach($result as $k=>$v):?>
+		<tr>
+			<td><?=$v['type']?></td>
+			<td><?=$v['num']?></td>
+			<td><?=$v['true']?></td>
+			<td><?=$v['total_score']?></td>
+			<td><?=$v['score']?></td>	
+		</tr>
+		<?php endforeach;?>		
+	</table>
+	<div>
+		注意：填空题和简单题需要教师阅卷后给出评分，本次考试最后得分请在用户中心查看。
+	</div>
+	<div style="text-align:center">
+			<button class="btn btn-large" style="width:200px; margin-top:40px;" onclick="window.open('','_self');window.close();">关闭</button>
+	</div>
+</div>
+<div class="footer" style="text-align:center; margin:100px 0 10px 0;">
+	<div class="page_footer">Copyright © 2014 无纸化在线考试系统</div>
+</div>
+
+</body>
+</html>

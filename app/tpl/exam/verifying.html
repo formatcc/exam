@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title><?=$page_title?></title>
+<script src="app/public/js/jquery.min.js"></script>
+<script src="app/public/js/jquery.msg.js"></script>
+<script src="app/public/js/jquery.topmsg.js"></script>
+<script src="app/public/js/bootstrap.min.js"></script>
+
+<link type="text/css" href="app/public/css/bootstrap.min.css" rel="stylesheet"></link>
+
+</head>
+<body style="background:url(app/public/img/body_bg.jpg)">
+
+<div style="position:fixed; height:100px;top:40px; left:20px; border:1px solid #3096a0; padding:5px;" id="tools">
+	<div>姓名：<?=$user['s_nickname']?></div>
+	<div>学号：<?=$user['s_account']?></div>
+	<div>
+		<input type="checkbox" id="switch_ref_answer" checked='true'>参考答案
+	</div>
+	<div>
+		<input type="checkbox" id="switch_objective">客观题
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		switch_ref_answer();
+		switch_objective();
+		
+		$("#switch_ref_answer").click(function(){
+			switch_ref_answer();
+		});
+
+		$("#switch_objective").click(function(){
+			switch_objective();
+		});
+		
+	});
+	
+	function switch_objective(){
+		if($("#switch_objective").is(':checked')){
+			$(".objective").show();
+		}else{
+			$(".objective").hide();
+		}
+		
+	}
+	
+	function switch_ref_answer(){
+		if($("#switch_ref_answer").is(':checked')){
+			$(".ref_answer").show();
+		}else{
+			$(".ref_answer").hide();
+		}
+		
+	}
+</script>
+
+<div class="container">
+	<div style="border:1px solid #999;padding:15px;">
+	<form class="form-horizontal" action="index.php?m=exam&a=save_verifying&id=<?=$id?>" method="post" id="examing">
+		<?php $num =1;?>
+
+	<?php foreach($questions as $item): ?>
+				<div style="border:1px solid #999; margin-top:5px;" <?php if($item['n_sort'] == 1 ||$item['n_sort'] == 2||$item['n_sort'] == 4  ):?>class="objective"<?php endif;?>>
+					<div class="title" style="padding:10px; color:#814c19;"><span style="float:left"><?=$num++?>、 </span><?=$item['s_title'];?></div>
+					<div class="options" style="padding:10px 10px 10px 30px;"><?=$item['s_options'];?></div>
+					<div class="answer" style="padding:10px;">
+						<div style="border:1px dashed #324;background:#f4f4f4">
+							<div style="height:40px; line-height:40px; color:red; font-size:18px;padding-left:10px;">用户答案</div>
+							<div style=" padding:10px;"><?=$item['user_answer']?></div>
+						</div>
+						<div style="margin:10px;">
+							<div class="row">
+								<div class="span1">类型：</div>
+								<div class="span">
+									<?=$item['sort']?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="span1">分值：</div>
+								<div class="span">
+									<?=$item['f_score']?>
+									<input type="hidden" name="ref_score[<?=$item['a_id']?>]" value="<?=$item['f_score']?>"/>
+								</div>
+							</div>
+							<div class="row">
+								<div class="span1">得分：</div>
+								<div class="span">
+									<input type="text" class="input-mini" name="score[<?=$item['a_id']?>]" value="<?=$item['score']?>"/>
+								</div>
+							</div>
+						</div>
+						<div style="border:1px dashed #324;background:#fffef3; " class="ref_answer">
+							<div style="height:40px; line-height:40px; color:#4f979f; font-size:18px;padding-left:10px;">参考答案</div>
+							<div style=" padding:10px;"><?=$item['answer']?></div>
+						</div>
+					</div>
+				</div>
+	<?php endforeach;?>
+	<div style="text-align:center; margin-top:40px;">
+		<div style="width:200px;position:relative; left:50%; margin-left:-100px;">
+			<input type="submit" class="btn btn-large btn-primary btn-block" value="保&nbsp;&nbsp;&nbsp;&nbsp;存"/>
+		</div>
+	</div>
+
+	</div>
+	
+	</form>
+</div>
+<div class="footer" style="text-align:center; margin:20px 0 10px 0;">
+	<div class="page_footer">Copyright © 2014 无纸化在线考试系统</div>
+</div>
+
+</body>
+</html>

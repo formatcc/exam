@@ -1,0 +1,154 @@
+<script type="text/template" id="add_question">
+	<div class="question">
+		<ul class="breadcrumb">
+		  <li>用户中心<span class="divider">/</span></li>
+		  <li><a href="#question">试题模块</a><span class="divider">/</span></li>
+		  <li class="active"><%=addr %></li>
+		  <li class="pull-right"><a href="#question">试题管理</a></li>
+		</ul>
+		
+		<div>
+			
+			<form class="form-horizontal" onsubmit="return false">
+				<div class="control-group">
+					<label class="control-label">科目：</label>
+			  		<div class="controls">
+				  		<select class="combox" name='subject' id='subject' autocomplete="off">
+							<?php foreach($subjects as $item):?>
+			        		<option value="<?=$item['id']?>"><?=$item['s_name']?></option>
+							<?php endforeach;?>
+					  	</select>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">题型：</label>
+				  	<div class="controls">
+					  	<select name="question_sort" id="question_sort" class="combox" autocomplete="off">
+					  		<option value="1">单选题</option>
+					  		<option value="2">多选题</option>
+					  		<option value="3">填空题</option>
+					  		<option value="4">判断题</option>
+					  		<option value="5">问答题</option>
+					  	</select>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">分值：</label>
+				  	<div class="controls">
+				 		<input type="text" name="score" id="score" value='1' autocomplete="off" />
+					  	<span class="help-block">请填写该题分值。（最多保留两位小数）</span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label">题干：</label>
+				  	<div class="controls">
+				 		<textarea class="ckeditor" name="title" id="title" autocomplete="off" ></textarea>
+					  	<span class="help-block">需要填空处请以A、B、C、D...表示。</span>
+					</div>
+				</div>
+			
+				<div class="control-group">
+					<label class="control-label">备选项：</label>
+				  	<div class="controls">
+				 		<textarea class="ckeditor" name="options" id="options" autocomplete="off" ></textarea>
+					  	<span class="help-block">无选择项的请不要填写，如填空题、问答题等主观题。</span>
+					</div>
+				</div>
+			
+				<div class="input" id="selectnumber">
+					<label class="control-label">备选项数量：</label>
+				  	<div class="controls">
+					  	<select class="combox" name="options_num" id="options_num" autocomplete="off">
+					  		<option value="0">0</option>
+					  		<option value="1">1</option>
+					  		<option value="2">2</option>
+					  		<option value="3">3</option>
+					  		<option value="4" selected="">4</option>
+					  		<option value="5">5</option>
+					  		<option value="6">6</option>
+					  	</select>
+					</div>
+				</div>
+			
+				<div class="control-group">
+					<label class="control-label">参考答案：</label>
+					<div class="controls">
+						<!-- 单选题 -->
+						<div id="answerbox_1" class="answerbox">
+						</div>
+						<!-- /单选题 -->
+
+						<!-- 多选题 -->
+						<div id="answerbox_2" class="answerbox">
+						</div>
+						<!-- /多选题 -->
+
+						<!-- 填空题 -->
+						<div id="answerbox_3" class="answerbox">
+						</div>
+						<!-- /填空题 -->
+
+						<!-- 判断题 -->
+						<div id="answerbox_4" class="answerbox" style="display:none">
+						  	<label class="radio inline">
+						  		<input type="radio" name="answerbox_4" value="1"  autocomplete="off">对
+						  	</label>
+						  	<label class="radio inline">
+						  		<input type="radio" name="answerbox_4" value="0" autocomplete="off">错
+						  	</label>
+						</div>
+						<!-- /判断题 -->
+
+						<!-- 简单题 -->
+						<div id="answerbox_5" class="answerbox" style="display:none">
+					 		<textarea class="ckeditor" name="short_answer" id="short_answer" autocomplete="off" ></textarea>
+						</div>
+						<!-- /简答题 -->
+
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">习题解析：</label>
+				  	<div class="controls">
+				  		<textarea class="ckeditor" name="analyse" id="analyse" autocomplete="off" ></textarea>
+					</div>
+				</div>
+				
+				<div class="control-group">
+				  	<div class="controls">
+					  	<button class="btn btn-primary" type="submit" id="save_edit" autocomplete="off">提交</button>
+					</div>
+				</div>
+			</form>
+		</div>	
+	</div>
+</script>
+
+<!-- 编辑试题-单选模板 -->
+<script type="text/template" id="temp_answerbox_1">
+	<label class="radio inline">
+		<input type="radio" name="answer" value="<%=answer %>" autocomplete="off"><%=answer %>
+	</label>
+</script>
+<!-- /编辑试题-单选模板 -->
+
+<!-- 编辑试题-多选模板 -->
+<script type="text/template" id="temp_answerbox_2">
+	<label class="checkbox inline">
+		<input type="checkbox" name="answer" value="<%=answer %>" autocomplete="off"><%=answer %>
+	</label>
+</script>
+<!-- /编辑试题-多选模板 -->
+
+<!-- 编辑试题-填空模板 -->
+<script type="text/template" id="temp_answerbox_3">
+	<label class="inline">
+	<%=answer %>：
+		<input type="text" class="input-xxlarge"  name="answer"  autocomplete="off">
+	</label>
+</script>
+<!-- /编辑试题-填空模板 -->

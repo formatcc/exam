@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title><?=$page_title?></title>
+<link type="text/css" href="app/public/css/bootstrap.min.css" rel="stylesheet"></link>
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="brand" href="javascript:;"><?=$app_name?></a>
+		<ul class="nav pull-right">
+		  <li class="divider-vertical"></li>
+		  <li class="dropdown">
+		    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=$user ?><b class="caret"></b></a>
+		    <ul class="dropdown-menu">
+		      <li><a href="<?=$logout ?>">退出</a></li>
+		    </ul>
+		  </li>
+		</ul>	  	
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+	body{
+		padding-top:60px;
+	}
+</style>
+
+<div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span2">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list" id="leftnavContent">   
+            	<?php foreach($nav as $n):?>
+				  <li class="nav-header"><?=$n['title'] ?></li>
+				  <?php if(isset($n['sub']) && is_array($n['sub'])):?>
+						<?php foreach($n['sub'] as $sub):?>
+						  <li><a href="#<?=$sub['cat'] ?>" cat='<?=$sub['cat'] ?>'><?=$sub['title'] ?></a></li>
+						<?php endforeach;?>				  
+				  <?php endif;?>
+            	<?php endforeach;?>
+            </ul>
+          </div>
+        </div><!--/span-->
+        <div class="span10" id="main">
+
+        </div><!--/span-->
+      </div><!--/row-->
+</div>
+
+<?php 
+  $this->display('user:examing'); //参加考试
+  $this->display('user:info'); //用户中心
+  $this->display('user:examed');//已参加过的考试列表
+  $this->display('user:examed_all');//成绩查询列表
+  $this->display('user:wrong');//错误分析列表 
+  $this->display('user:wrong_show');//查看错误
+  $this->display('questions:list');//试题列表
+  $this->display('questions:edit');//编辑试题
+  $this->display('questions:show');//查看试题
+  $this->display('exam:list');//试卷列表
+  $this->display('exam:edit');//编辑试卷
+  $this->display('exam:verifying_list');//阅卷列表
+  $this->display('user:list');//用户列表
+?>
+
+<!-- 对话框 -->
+<div  id="dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="title"></h3>
+  </div>
+  <div class="modal-body msg">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-close" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button class="btn btn-primary btn-ok ok">确定</button>
+  </div>
+</div>
+<!-- /对话框 -->
+
+<script type="text/javascript" src='app/public/js/require.js' data-main='app/public/js/app'></script>
+<script type="text/javascript" src='app/public/ckeditor/ckeditor.js'></script>
+<link type="text/css" rel='stylesheet' href='app/public/css/style.css'></link>

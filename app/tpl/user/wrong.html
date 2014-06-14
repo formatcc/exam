@@ -1,0 +1,47 @@
+<script type="text/template" id="user_wrong">
+<div class="wrong">        
+	<ul class="breadcrumb">
+	  <li>用户中心<span class="divider">/</span></li>
+	  <li class="active">错题分析</li>
+	</ul>
+
+	<table class="table table-striped table-condensed">
+		<thead>
+			<tr>
+				<td>ID</td>	
+				<td>题目</td>	
+				<td>得分</td>
+			</tr>
+		</thead>
+		<tbody>
+		<% for(var i = 0; i < list.length; i++) { %>
+		<% var item = list[i] %>
+			<tr>
+			<td><%=item['question_id']%></td>
+			<td><a href="javascript:;" data-id='<%=item['id']%>' class="show"><%=trim_img(item['s_title'])%></a></td>
+			<td><%=item['f_score']%></td>
+			</tr>			
+		<% } %>
+		</tbody>
+	</table>
+
+	<div class="pagination  pagination-right">
+	  <ul>
+		<%
+			var size = 5;
+			var prev = (page['cur']-size)>0?(page['cur']-size):0;
+			var next = parseInt(page['cur'])+size;
+			next = (next>page['total'])?page['total']:next;
+			var start = prev+1;
+			var end = next;
+		%>
+	    <li <% if(page['cur']<=1){ %>class="disabled"<% }%> ><a href="#wrong/p<%=prev %>">&laquo;</a></li>
+		<% for(var i=start; i<= end; i++){ %>
+	    <li <% if(page['cur']==i){ %>class="active"<% }%> ><a href="#wrong/p<%=i %>"><%=i%></a></li>
+		<% } %>
+	    <li <% if(page['cur']>=page['total']){ %>class="disabled"<% }%> ><a href="#wrong/p<%=next %>">&raquo;</a></li>
+	  </ul>
+	</div>
+
+</div>
+</script>

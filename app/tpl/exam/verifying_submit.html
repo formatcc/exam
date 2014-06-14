@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>在线考试系统</title>
+<script src="app/public/js/jquery.min.js"></script>
+<script src="app/public/js/bootstrap.min.js"></script>
+<link type="text/css" href="app/public/css/bootstrap.min.css" rel="stylesheet"></link>
+<style type="text/css">
+ .msg {
+        max-width: 250px;
+        padding: 19px 29px 29px;
+        margin: 100px auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+</style>
+</head>
+<script type="text/javascript">
+	$(function(){
+		$(".continue").click(function(){
+			$(this).addClass('disabled').attr('disabled','disabled');
+			$("#msg").html("正在获取试卷，请稍后...");
+        	$.ajax({url:"index.php?m=exam&a=verifying_next", success:function(data){
+        		location.href="index.php?m=exam&a=verifying&id="+data.id;
+        	},dataType:"json"});
+			
+		});
+	});
+</script>
+<body style="background:url(app/public/img/body_bg.jpg)">
+	<div class="container">
+		<div class="msg">
+			<div style="text-align:center; height:100px;line-height:100px;font-weight:bold; font-size:15px;" id="msg">保存成功！是否进入继续阅卷？</div>
+			<div style="text-align:center">
+				<button class="btn" onclick="window.close();">关闭</button>
+				<button class="btn btn-primary continue" style="margin-left:50px;">继续</button>
+			</div>
+		</div>
+	</div>
+<div class="footer" style="text-align:center; margin:300px 0px 10px 0;">
+	<div class="page_footer">Copyright © 2014 无纸化在线考试系统</div>
+</div>
+</body>
+
+</html>

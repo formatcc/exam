@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>在线考试系统</title>
+<script src="app/public/js/jquery.min.js"></script>
+<meta http-equiv="Refresh" content="3;url=index.php?m=exam&a=result">
+
+</head>
+<body style="background:url(app/public/img/body_bg.jpg)">
+正在交卷，请勿刷新页面！
+<div class="footer" style="text-align:center; margin:300px 0px 10px 0;">
+	<div class="page_footer">Copyright © 2014 无纸化在线考试系统</div>
+</div>
+
+<script type="text/javascript">
+(function(){
+var wait = 3,href = "index.php?m=exam&a=result";
+var interval = setInterval(function(){
+	var time = --wait;
+	if(time <= 0) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 1000);
+})();
+</script>
+</body>
+
+</html>

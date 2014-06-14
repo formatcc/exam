@@ -1,0 +1,247 @@
+<script type="text/template" id="exam_edit">
+	<div class="exam">
+		<ul class="breadcrumb">
+		  <li>用户中心<span class="divider">/</span></li>
+		  <li><a href="#exam">试卷管理</a><span class="divider">/</span></li>
+		  <li class="active"><%=addr %></li>
+		  <li class="pull-right"><a href="#exam">试卷管理</a></li>
+		</ul>
+		<form class="form-horizontal" onsubmit="return false">
+			<div class="row">
+				<div class="span3 left">
+					<div class="control-group">
+						<label class="control-label">试卷名称：</label>
+				  		<div class="controls">
+				  			<input type="text" id="s_name" name="s_name1" class="input-medium" value="<%=s_name%>" class="{required:true, minlength:2}"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">科目：</label>
+				  		<div class="controls">
+					  		<select class="combox" name='subject' id='subject' autocomplete="off" style="width:150px;">
+								<?php foreach($subjects as $item):?>
+				        		<option value="<?=$item['id']?>"><?=$item['s_name']?></option>
+								<?php endforeach;?>
+						  	</select>
+						</div>
+					</div>
+		
+					<div class="control-group">
+						<label class="control-label">考试时间：</label>
+				  		<div class="controls">
+				  			<input type="text" id="n_spend" class="input-mini" value="<%=n_spend%>"/>分钟
+						</div>
+					</div>
+
+					<div class="control-group">
+					  	<div class="controls">
+						  	<button class="btn btn-primary" type="submit" id="save_edit" autocomplete="off">提交</button>
+						</div>
+					</div>
+					
+					<div>
+						<div>
+							<table class="table table-bordered table-condensed">
+								<caption>试卷信息预览</caption>
+								<thead>
+									<tr>
+										<th>试题类型</th>
+										<th>数量</th>
+										<th>总分</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="single">
+										<td>单选题</td>
+										<td class="num">0</td>
+										<td class="score">0</td>
+									</tr>							
+									<tr class="multi">
+										<td>多选题</td>
+										<td class="num">0</td>
+										<td class="score">0</td>
+									</tr>							
+									<tr class="judge">
+										<td>判断题</td>
+										<td class="num">0</td>
+										<td class="score">0</td>
+									</tr>							
+									<tr class="blank">
+										<td>填空题</td>
+										<td class="num">0</td>
+										<td class="score">0</td>
+									</tr>							
+									<tr class="brief">
+										<td>简答题</td>
+										<td class="num">0</td>
+										<td class="score">0</td>
+									</tr>							
+									<tr class="total info">
+										<td>总计
+											<input type="hidden" id="n_score" value="<%=n_score%>"/>									
+										</td>
+										<td class="num">0</td>
+										<td class="score">0</td>
+									</tr>							
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+				
+				<div class="span9">
+						<div>
+							<span style="font-size:18px;">试卷编辑区域</span>
+							<div class="pull-right btn-group">
+								<a href="javascript:;" class="btn add_big">大题</a>				
+								<a href="javascript:;" class="btn add_question">试题</a>				
+							</div>
+						</div>
+
+						<div style="border:1px solid #ddd; margin-top:20px; height:400px; overflow:scroll">
+			  				<ol class='exam_questions' style="list-style:">
+	 		  				</ol>
+						</div>
+				</div>
+			</div>
+		</form>		
+	</div>
+</script>
+
+<!-- 添加大题对话框 -->
+<script type="text/template" id="add_big_dialog">
+	<div>
+		<div>
+			<span>大题标题：</span><input type="text" id="big_question_title">
+		</div>
+		<div>
+			<span>插入位置：</span><input type="text" class="input-small" id="big_question_title_after" value="0">
+			<span>0表示在最后添加</span>
+		</div>
+	</div>
+</script>
+<!-- 添加大题对话框 -->
+
+<script type="text/template" id="add_question_dialog">
+	<div class="add_question_dialog">
+		<div>
+			<form class="form-inline">
+					<span>试题类型</span>
+			  		<select name="question_sort" id="question_sort" class="combox" autocomplete="off">
+						<option>不限</option>
+						<option value="1">单选题</option>
+						<option value="2">多选题</option>
+						<option value="3">填空题</option>
+						<option value="4">判断题</option>
+						<option value="5">问答题</option>
+					</select>
+			 		 <button type="button" class="btn">查询</button>
+			</form>
+		</div>
+		<table class="table table-striped table-condensed">
+			<thead>
+				<tr>
+					<td>选择</td>
+					<td>类型</td>
+					<td>分值</td>	
+					<td>内容</td>
+					<td>科目</td>
+				</tr>
+			</thead>
+			<tbody>
+			<% for(var i = 0; i < list.length; i++) { %>
+			<% var item = list[i];
+				var id= parseInt(item['id']);
+				var is_selected=0;//是否被选择
+				if(_.include(selected_ids, id)){
+					is_selected=1;						
+				}	
+			 %>
+				<tr>
+				<td>
+					<% if(is_selected==0){ %>
+						<input type="checkbox" data-id="<%=item['id']%>" data-sort="<%=item['n_sort']%>" data-score="<%=item['f_score']%>" data-text='<%=item['s_title']%>' data-subject='<%=item['subject']%>' data-type='<%=item['question_type']%>' name='id'>
+					<%}else{%>
+						<input type="checkbox" checked="checked" disabled title="该试题已选择，如需删除请在试卷编辑区域删除">
+					<%}%>
+				</td>
+				<td><%=item['question_type']%></td>
+				<td><%=item['f_score']%></td>
+				<td><div  class="title" style="width:400px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;	"><%=trim_img(item['s_title'])%></div></td>
+				<td><%=item['subject']%></td>
+				</tr>			
+			<% } %>
+			</tbody>
+		</table>
+
+		<div class="pagination  pagination-right">
+		  <ul>
+			<%
+				var size = 5;
+				var prev = (page['cur']-size)>0?(page['cur']-size):0;
+				var next = parseInt(page['cur'])+size;
+				next = (next>page['total'])?page['total']:next;
+				var start = prev+1;
+				var end = next;
+			%>
+		    <li <% if(page['cur']<=1){ %>class="disabled"<% }%> ><a href="javascript:;" class="page prev" data-page="<%=prev %>">&laquo;</a></li>
+			<% for(var i=start; i<= end; i++){ %>
+		    <li <% if(page['cur']==i){ %>class="active"<% }%> ><a href="javascript:;" class="page page_num" data-page="<%=i %>"><%=i%></a></li>
+			<% } %>
+		    <li <% if(page['cur']>=page['total']){ %>class="disabled"<% }%> ><a href="javascript:;" class="page next" data-page="<%=next %>">&raquo;</a></li>
+		  </ul>
+		</div>
+	</div>
+</script>
+
+<!-- 试卷添加试题模板 -->
+<script type="text/template" id="add_question_item">
+	<li class='question' data-id=<%=id%> data-score="<%=score%>" data-sort="<%=sort%>">
+		<div class="title">
+			<%=trim_img(title) %>
+		</div>
+
+		<div class="btn-group tools">
+			<a class="btn del" href="javascript:;" title="删除"><em class="icon-remove"></em></a>
+			<i class="btn drag" title="移动"><em class="icon-th"></em></i>
+		</div>
+	</li>
+</script>
+<!-- /试卷添加试题模板 -->
+
+<!-- 试卷添加大题模板 -->
+<script type="text/template" id="add_big_question_item">
+	<li class='big' data-title='<%=title %>'>
+		<div class="title" style="font-weight: bold;font-size: large;">
+			<%=title %>
+		</div>
+
+		<div class="btn-group tools">
+			<a class="btn del" href="javascript:;"  title="删除"><em class="icon-remove"></em></a>
+			<a class="btn edit" href="javascript:;" title="编辑"><em class="icon-edit"></em></a>
+			<i class="btn drag" title="移动"><em class="icon-th"></em></i>
+		</div>
+	</li>
+</script>
+<!-- /试卷添加大题模板 -->
+
+<!-- 保存确认 -->
+<script type="text/template" id="exam_save_confirm">
+	<div class="exam_save_confirm">
+		<div class="row">
+			<div class="span1">试卷名称：</div>
+			<div class="span"><%=name%></div>
+		</div>
+		<div class="row">
+			<div class="span1">试卷总分：</div>
+			<div class="span"><%=score%></div>
+		</div>
+		<div class="row">
+			<div class="span1">考试时间：</div>
+			<div class="span"><%=spend%>分钟</div>
+		</div>
+	</div>
+</script>
+<!-- /保存确认 -->

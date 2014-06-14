@@ -1,0 +1,63 @@
+<script type="text/template" id="exam_list">
+	<div class="exam_list exam">        
+		<ul class="breadcrumb">
+		  <li>用户中心<span class="divider">/</span></li>
+		  <li><a href="#exam">试卷管理</a><span class="divider">/</span></li>
+		  <li class="active">所有试卷</li>
+		  <li class="pull-right">
+			<a href="#exam/add">添加试卷</a>
+		  </li>
+		</ul>
+
+		<table class="table table-striped table-condensed">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>试卷名称</td>	
+					<td>科目</td>
+					<td>出卷时间</td>
+					<td>总分</td>
+					<td>操作</td>
+				</tr>
+			</thead>
+			<tbody>
+			<% for(var i = 0; i < list.length; i++) { %>
+			<% var item = list[i] %>
+				<tr>
+				<td><%=item['id']%></td>
+				<td><div  class="title"><%=item['s_name']%></div></td>
+				<td></td>
+				<td><%=item['dt_create']%></td>
+				<td><%=item['n_score']%></td>
+				<td>
+					<div class="btn-group">
+						<a class="btn examing" href="javascript:;" data-id="<%=item['id']%>"  title="预览"><em class="icon-eye-open"></em></a>
+						<a class="btn" href="#exam/edit<%=item['id']%>" title="修改"><em class="icon-edit"></em></a>
+						<a class="btn del" href="javascript:;" data-id="<%=item['id']%>" title="删除"><em class="icon-remove"></em></a>
+					</div>
+				</td>
+				</tr>			
+			<% } %>
+			</tbody>
+		</table>
+
+		<div class="pagination  pagination-right">
+		  <ul>
+			<%
+				var size = 5;
+				var prev = (page['cur']-size)>0?(page['cur']-size):0;
+				var next = parseInt(page['cur'])+size;
+				next = (next>page['total'])?page['total']:next;
+				var start = prev+1;
+				var end = next;
+			%>
+		    <li <% if(page['cur']<=1){ %>class="disabled"<% }%> ><a href="#exam/p<%=prev %>">&laquo;</a></li>
+			<% for(var i=start; i<= end; i++){ %>
+		    <li <% if(page['cur']==i){ %>class="active"<% }%> ><a href="#exam/p<%=i %>"><%=i%></a></li>
+			<% } %>
+		    <li <% if(page['cur']>=page['total']){ %>class="disabled"<% }%> ><a href="#exam/p<%=next %>">&raquo;</a></li>
+		  </ul>
+		</div>
+
+	</div>
+</script>

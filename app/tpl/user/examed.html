@@ -1,0 +1,55 @@
+<script type="text/template" id="user_examed">
+<div class="examed">        
+	<ul class="breadcrumb">
+	  <li>用户中心<span class="divider">/</span></li>
+	  <li class="active">我参加过的考试</li>
+	</ul>
+
+	<table class="table table-striped table-condensed">
+		<thead>
+			<tr>
+				<td>试卷名称</td>	
+				<td>参考时间</td>
+				<td>交卷时间</td>
+				<td>得分</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+		<% for(var i = 0; i < list.length; i++) { %>
+		<% var item = list[i] %>
+			<tr>
+			<td><div  class="title"><%=item['s_name']%></div></td>
+			<td><%=item['dt_start']%></td>
+			<td><%=item['dt_end']%></td>
+			<td><%=item['f_score']%></td>
+			<td>
+				<div class="btn-group">
+					<a class="btn btn-mini show" href="javascript:;" data-id="<%=item['id']%>" >查看</a>
+				</div>
+			</td>
+			</tr>			
+		<% } %>
+		</tbody>
+	</table>
+
+	<div class="pagination  pagination-right">
+	  <ul>
+		<%
+			var size = 5;
+			var prev = (page['cur']-size)>0?(page['cur']-size):0;
+			var next = parseInt(page['cur'])+size;
+			next = (next>page['total'])?page['total']:next;
+			var start = prev+1;
+			var end = next;
+		%>
+	    <li <% if(page['cur']<=1){ %>class="disabled"<% }%> ><a href="#examed/p<%=prev %>">&laquo;</a></li>
+		<% for(var i=start; i<= end; i++){ %>
+	    <li <% if(page['cur']==i){ %>class="active"<% }%> ><a href="#examed/p<%=i %>"><%=i%></a></li>
+		<% } %>
+	    <li <% if(page['cur']>=page['total']){ %>class="disabled"<% }%> ><a href="#examed/p<%=next %>">&raquo;</a></li>
+	  </ul>
+	</div>
+
+</div>
+</script>

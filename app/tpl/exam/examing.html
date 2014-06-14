@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title><?=$page_title?></title>
+<script src="app/public/js/jquery.min.js"></script>
+<script src="app/public/js/jquery.msg.js"></script>
+<script src="app/public/js/jquery.topmsg.js"></script>
+<script src="app/public/js/bootstrap.min.js"></script>
+
+<link type="text/css" href="app/public/css/bootstrap.min.css" rel="stylesheet"></link>
+
+</head>
+<script language="JavaScript">
+<!-- //
+var runtimes = 0;
+function GetRTime(){
+var nMS = <?=$lefttime?>*1000-runtimes*1000;
+var nH=Math.floor(nMS/(1000*60*60))%24;
+var nM=Math.floor(nMS/(1000*60)) % 60;
+var nS=Math.floor(nMS/1000) % 60;
+$("#RemainH").html(nH);
+$("#RemainM").html(nM);
+$("#RemainS").html(nS);
+if(nMS<=0)
+{
+	$("#submit").click();
+}
+runtimes++;
+setTimeout("GetRTime()",1000);
+}
+window.onload=GetRTime;
+// -->
+</script>
+
+<body style="background:url(app/public/img/body_bg.jpg)">
+
+<div style="position:fixed; height:150px; width:150px;top:40px; left:20px; border:1px solid #3096a0; padding:5px;" id="tools">
+	<div>剩余时间：<span style="color:red"><strong id="RemainH">00</strong>:<strong id="RemainM">00</strong>:<strong id="RemainS">00</strong></span></div>
+	<div>姓名：<?=$user['s_nickname']?></div>
+	<div>学号：<?=$user['s_account']?></div>
+	<div>试卷名称：<?=$exam['s_name']?></div>
+	<div>试卷总分：<?=$exam['n_score']?></div>
+</div>
+
+<div class="container">
+	<div style="border:1px solid #999;padding:15px;">
+	<form class="form-horizontal" action="index.php?m=exam&a=submit&id=<?=$exam['id']?>" method="post" id="examing">
+	<?php foreach($questions as $big): ?>
+		<?php $num =1;?>
+		<?php if(isset($big['title'])):?>
+			<div style="height:50px; line-height:50px; margin:10px 0 10px 0; padding-left:20px; background:#efefef; color:#3096a0; font-weight: bold;font-size: large;"><?=$big['title']?></div>
+		<?php endif;?>
+		
+		<?php if($big['data']):?>
+			<?php foreach($big['data'] as $item): ?>
+				<?php $info = $infos[$item['id']];?>
+				<div style="border:1px solid #999; margin-top:5px;">
+					<div class="title" style="padding:10px; color:#814c19;"><span style="float:left"><?=$num++?>、 </span><?=$info['s_title'];?></div>
+					<div class="options" style="padding:10px 10px 10px 30px;"><?=$info['s_options'];?></div>
+					<div class="answer" style="padding:10px;">
+						<div style="border:1px dashed #324; padding:10px;">
+							<?php if($info['n_sort']==1):?>
+								<!-- 单选 -->
+								<?php for($n = 0; $n < $info['n_options_num']; $n++):?>
+									<?php $op = chr($n+65); ?>
+									<label class="radio inline" style="margin-left:30px;">
+									  <input type="radio" name="answer[<?=$info['id']?>]" value="<?=$op ?>"> <?=$op ?>
+									</label>									
+								<?php endfor;?>
+								<!-- /单选 -->
+							<?php elseif($info['n_sort']==2):?>
+								<!-- 多选 -->
+								<?php for($n = 0; $n < $info['n_options_num']; $n++):?>
+									<?php $op = chr($n+65); ?>
+									<label class="checkbox inline" style="margin-left:30px;">
+									  <input type="checkbox" name="answer[<?=$info['id']?>][]" value="<?=$op ?>"> <?=$op ?>
+									</label>									
+								<?php endfor;?>
+								<!-- /多选 -->
+							<?php elseif($info['n_sort']==3):?>
+								<!-- 填空 -->
+								<?php for($n = 0; $n < $info['n_options_num']; $n++):?>
+									<?php $op = chr($n+65); ?>
+									<div style="margin-left:30px;">
+									  <label class="inline"><?=$op ?>：
+										  <input type="text" name="answer[<?=$info['id']?>][]" style="display:inline">
+									  </label>
+									</div>
+								<?php endfor;?>
+								<!-- /填空 -->
+							<?php elseif($info['n_sort']==4):?>
+								<!-- 判断题 -->
+								<div style="margin-left:30px;">
+								  <label style="float:left">
+								  		对：
+									  <input type="radio" name="answer[<?=$info['id']?>]" value="1" style="display:inline">
+								  </label>
+								  <label style="margin-left:80px;">
+								  		错：
+									  <input type="radio" name="answer[<?=$info['id']?>]" value="0" style="display:inline">
+								  </label>
+								</div>
+								<!-- /判断题 -->
+							<?php elseif($info['n_sort']==5):?>
+								<!-- 简答题 -->
+								<div style="margin-left:30px;">
+									  <span>请在此处作答</span>
+									  <textarea name="answer[<?=$info['id']?>]" style="width:830px; height:150px;"></textarea>
+								</div>
+								<!-- /简答题 -->
+							<?php endif;?>
+						</div>
+					</div>
+				</div>
+			<?php endforeach;?>
+		<?php endif; ?>
+	<?php endforeach;?>
+	<div style="text-align:center; margin-top:40px;">
+<!--  	<span>全卷已做 0 题 / 共65题 剩余 65 题未作答</span>-->	
+		<div style="width:200px;position:relative; left:50%; margin-left:-100px;">
+			<input type="submit" class="btn btn-large btn-primary btn-block" id="submit" value="交&nbsp;&nbsp;&nbsp;&nbsp;卷"/>
+		</div>
+	</div>
+
+	</div>
+	
+	</form>
+</div>
+<div class="footer" style="text-align:center; margin:20px 0 10px 0;">
+	<div class="page_footer">Copyright © 2014 无纸化在线考试系统</div>
+</div>
+
+</body>
+</html>

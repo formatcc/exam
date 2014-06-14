@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>页面提示</title>
+<script src="app/public/js/jquery-1.7.2.min.js"></script>
+<script src="app/public/js/bootstrap.min.js"></script>
+<script src="app/public/js/bootstrap-alert.js"></script>
+<link type="text/css" href="app/public/css/bootstrap.min.css" rel="stylesheet"></link>
+<meta http-equiv="Refresh" content="<?=$time?>;url=<?=$url?>">
+</head>
+<body>
+<style type="text/css">
+	.border{
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);	
+	}
+	
+	.jump{
+		width:300px;
+		margin:200px auto 100px;
+		text-align:center;
+	}
+	.jump .msg{
+		color:blue;
+	}
+</style>	
+	
+<div class="container">
+	<div class="row jump border">
+		<div class="msg"><?=$msg ?></div>
+		<div class="info">系统将在<span id="wait"><?=$time?></span>秒后跳转，如不想等待请<a id="href" href="<?=$url?>">点击</a></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+(function(){
+var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+var interval = setInterval(function(){
+	var time = --wait.innerHTML;
+	if(time <= 0) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 1000);
+})();
+</script>

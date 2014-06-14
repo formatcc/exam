@@ -1,0 +1,46 @@
+<script type="text/template" id="user_info">
+<div class="user_info">        
+	<ul class="breadcrumb">
+	  <li>用户中心</li>
+	</ul>
+	<style style="text/css">
+		.user_info .row{
+			margin-left:0px;
+		}
+		.user_info .span4 .span4{
+			text-align:right;
+		}
+	</style>
+	
+	<div class="row">
+		<div class="span4">
+			<div class="row">
+				<div class="span" style="margin-left:10px;">
+				<%=user['s_nickname'] %>您好，欢迎使用在线考试系统
+				</div>
+			</div>
+			<div class="row">
+				<div class="span4">
+				登陆次数：
+				</div>
+				<div class="span8"><%=user['n_login_count']%></div>
+			</div>
+			<div class="row">
+				<div class="span4">
+				上次登陆时间：
+				</div>
+				<div class="span8"><%=user['dt_last_login']%></div>
+			</div>
+			<div class="row">
+				<div class="span4">
+				上次登陆IP：
+				</div>
+				<div class="span8"><%=user['s_last_login_ip']%></div>
+			</div>
+			
+		</div>
+
+	</div>
+
+</div>
+</script>

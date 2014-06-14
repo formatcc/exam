@@ -1,0 +1,57 @@
+<script type="text/template" id="user_wrong_show">
+<div class="wrong_show">	
+	<div>
+			<div class="row">
+				<div class="span1">题目：</div>
+			  	<div class="span5">
+			  		<%=s_title %>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="span1">分值：</div>
+			  	<div class="span5">
+			  		<%=f_score%>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span1">得分：</div>
+			  	<div class="span5">
+			  		<%=error_score%>
+				</div>
+			</div>
+			<% if(n_sort == 1 || n_sort ==2){%>
+			<div class="row">
+				<div class="span1">试题选项：</div>
+				<div class="span5">
+					<%=s_options %>
+				</div>
+			</div>
+			<% } %>
+			<div class="row">
+				<div class="span1">你的答案：</div>
+				<div class="span5" style="color:red">
+					<% if(error_answer){%>
+					<%=error_answer %>
+					<%}else{%>
+					未作答
+					<%}%>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="span1">参考答案：</div>
+				<div class="span5">
+					<%=answer %>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="span1">习题解析：</div>
+			  	<div class="span5">
+			  		<%=s_analyse %>
+				</div>
+			</div>
+	</div>
+</div>
+</script>
